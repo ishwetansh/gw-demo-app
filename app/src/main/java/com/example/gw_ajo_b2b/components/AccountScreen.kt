@@ -15,6 +15,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.app.components.IntentCategory
+import com.example.app.components.IntentItem
+import com.example.app.components.IntentListScreen
 
 @Composable
 fun AccountDetailScreen() {
@@ -31,9 +34,38 @@ fun AccountDetailScreen() {
             onTabSelected = { selectedTab = it }
         )
 
+        val mockCategories = listOf(
+            IntentCategory(
+                title = "Personalization at scale",
+                subtitle = "Category",
+                items = listOf(
+                    IntentItem("Journey Optimizer", "high intent"),
+                    IntentItem("Journey Optimizer B2B Edition", "high intent")
+                )
+            ),
+            IntentCategory(
+                title = "Content management",
+                subtitle = "Category",
+                items = listOf(
+                    IntentItem("Content management system", "high intent"),
+                    IntentItem("Digital asset management", "high intent"),
+                    IntentItem("Asset Management Tools", "medium intent")
+                )
+            ),
+            IntentCategory(
+                title = "B2B marketing",
+                subtitle = "Category",
+                items = listOf(
+                    IntentItem("Account Based Marketing", "high intent"),
+                    IntentItem("B2B Data Analytics", "high intent")
+                )
+            )
+        )
+
+
         when (selectedTab) {
             0 -> OverviewContent()
-            1 -> PlaceholderScreen("Intent data")
+            1 -> IntentListScreen(categories = mockCategories)
             2 -> PlaceholderScreen("Buying groups")
         }
     }
@@ -66,7 +98,6 @@ fun GradientHeader() {
             modifier = Modifier
                 .size(80.dp)
                 .align(Alignment.BottomStart)
-                .padding(start = 16.dp, bottom = 40.dp)
         )
     }
 }
@@ -125,16 +156,17 @@ fun SegmentedControl(tabs: List<String>, selectedTab: Int, onTabSelected: (Int) 
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         tabs.forEachIndexed { index, title ->
-            Text(
-                text = title,
-                color = if (selectedTab == index) Color.Black else Color.Gray,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
-                ),
-                modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .clickable { onTabSelected(index) }
-            )
+            Box(modifier = Modifier
+                .padding(vertical = 8.dp, horizontal = 8.dp)
+                .clickable { onTabSelected(index) }) {
+                Text(
+                    text = title,
+                    color = if (selectedTab == index) Color.Black else Color.Gray,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
+                    )
+                )
+            }
         }
     }
     Divider(color = Color.LightGray, thickness = 1.dp)
