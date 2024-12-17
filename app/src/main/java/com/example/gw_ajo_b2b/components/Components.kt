@@ -51,7 +51,7 @@ fun GradientHeader(navController: NavHostController, accountName: String) {
         IconButton(
             onClick = { navController.popBackStack() },
             modifier = Modifier
-                .padding(16.dp) // Make sure this padding is non-negative
+                .padding(16.dp)
                 .align(Alignment.TopStart)
         ) {
             Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
@@ -62,7 +62,7 @@ fun GradientHeader(navController: NavHostController, accountName: String) {
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp) // Ensure this is a positive value
+                .padding(bottom = 16.dp)
         ) {
             CircleAvatar(letter = accountName.firstOrNull()?.uppercaseChar())
         }

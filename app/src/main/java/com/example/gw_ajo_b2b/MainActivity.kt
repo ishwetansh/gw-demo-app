@@ -14,7 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.gw_ajo_b2b.components.NavigationGraph
-import com.example.gw_ajo_b2b.networking.makeAPICall
+import com.example.gw_ajo_b2b.networking.fetchAccountDetail
+import com.example.gw_ajo_b2b.networking.fetchBuyingGroupDetails
+import com.example.gw_ajo_b2b.networking.fetchBuyingGroups
 import com.example.gw_ajo_b2b.ui.theme.GWajob2bTheme
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +31,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = { BottomNavBar(navController) }
                 ) {
-                    makeAPICall()
+                    fetchBuyingGroupDetails()
+                    fetchBuyingGroups()
+                    fetchAccountDetail()
                     NavigationGraph(navController = navController)
                 }
             }
