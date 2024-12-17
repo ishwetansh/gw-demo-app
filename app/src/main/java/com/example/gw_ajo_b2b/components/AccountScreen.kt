@@ -15,18 +15,41 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.example.app.components.IntentCategory
 import com.example.app.components.IntentItem
 import com.example.app.components.IntentListScreen
+
+
 
 @Composable
 fun AccountDetailScreen() {
     var selectedTab by remember { mutableStateOf(0) }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        GradientHeader()
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Column {
+                GradientHeader()
+                Spacer(modifier = Modifier.height(40.dp))
+                AccountSummaryHeader()
+            }
 
-        AccountSummaryHeader()
+            Box(
+                modifier = Modifier
+                    .size(100.dp)
+                    .align(Alignment.CenterStart)
+                    .offset(x = 8.dp)
+                    .offset(y = -26.dp)
+                    .zIndex(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                ProfileAvatar(
+                    letter = 'B',
+                    modifier = Modifier
+                        .size(100.dp)
+                )
+            }
+        }
 
         SegmentedControl(
             tabs = listOf("Overview", "Intent data", "Buying groups"),
@@ -62,7 +85,7 @@ fun AccountDetailScreen() {
             )
         )
 
-
+        // Tabbed content
         when (selectedTab) {
             0 -> OverviewContent()
             1 -> IntentListScreen(categories = mockCategories)
@@ -93,12 +116,7 @@ fun GradientHeader() {
                 .align(Alignment.TopStart)
                 .clickable { /* Navigate Back */ }
         )
-        CircleAvatar(
-            letter = 'B',
-            modifier = Modifier
-                .size(80.dp)
-                .align(Alignment.BottomStart)
-        )
+
     }
 }
 
@@ -207,7 +225,7 @@ fun PlaceholderScreen(text: String) {
 }
 
 @Composable
-fun CircleAvatar(letter: Char, modifier: Modifier = Modifier) {
+fun ProfileAvatar(letter: Char, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -217,7 +235,8 @@ fun CircleAvatar(letter: Char, modifier: Modifier = Modifier) {
             text = letter.toString(),
             style = MaterialTheme.typography.titleLarge.copy(
                 color = Color.White,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Normal,
+                fontSize = 60.sp
             )
         )
     }

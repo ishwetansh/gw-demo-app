@@ -24,8 +24,8 @@ class WatchListViewModel : ViewModel() {
         } else {
             viewModelScope.launch {
                 try {
-                    val response = RetrofitClient.apiService.getWatchList()
-                    _accounts.value = response
+//                    val response = RetrofitClient.apiService.getWatchList()
+//                    _accounts.value = response
                 } catch (e: Exception) {
                     _accounts.value = emptyList()
                 }
