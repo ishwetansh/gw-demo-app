@@ -97,71 +97,57 @@ fun BuyingGroupCard(group: BuyingGroup) {
 @Composable
 fun AccountDetailScreen() {
     var selectedTab by remember { mutableStateOf(0) }
+    val data = AccountDetailsRepository.getAccountDetails()
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Column {
-                GradientHeader()
-                Spacer(modifier = Modifier.height(40.dp))
-                AccountSummaryHeader()
-            }
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Column {
+                    GradientHeader()
+                    Spacer(modifier = Modifier.height(40.dp))
+                    AccountSummaryHeader()
+                }
 
-            Box(
-                modifier = Modifier
-                    .size(100.dp)
-                    .align(Alignment.CenterStart)
-                    .offset(x = 8.dp)
-                    .offset(y = -26.dp)
-                    .zIndex(1f),
-                contentAlignment = Alignment.Center
-            ) {
-                ProfileAvatar(
-                    letter = 'B',
+                Box(
                     modifier = Modifier
                         .size(100.dp)
-                )
+                        .align(Alignment.CenterStart)
+                        .offset(x = 8.dp, y = -26.dp)
+                        .zIndex(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    ProfileAvatar(
+                        letter = data?.name?.firstOrNull() ?: 'B',
+                        modifier = Modifier.size(100.dp)
+                    )
+                }
             }
-        }
 
-        SegmentedControl(
-            tabs = listOf("Overview", "Intent data", "Buying groups"),
-            selectedTab = selectedTab,
-            onTabSelected = { selectedTab = it }
-        )
-
-        val mockCategories = listOf(
-            IntentCategory(
-                title = "Personalization at scale",
-                subtitle = "Category",
-                items = listOf(
-                    IntentItem("Journey Optimizer", "high intent"),
-                    IntentItem("Journey Optimizer B2B Edition", "high intent")
-                )
-            ),
-            IntentCategory(
-                title = "Content management",
-                subtitle = "Category",
-                items = listOf(
-                    IntentItem("Content management system", "high intent"),
-                    IntentItem("Digital asset management", "high intent"),
-                    IntentItem("Asset Management Tools", "medium intent")
-                )
-            ),
-            IntentCategory(
-                title = "B2B marketing",
-                subtitle = "Category",
-                items = listOf(
-                    IntentItem("Account Based Marketing", "high intent"),
-                    IntentItem("B2B Data Analytics", "high intent")
-                )
+            SegmentedControl(
+                tabs = listOf("Overview", "Intent data", "Buying groups"),
+                selectedTab = selectedTab,
+                onTabSelected = { selectedTab = it }
             )
-        )
 
-        // Tabbed content
-        when (selectedTab) {
-            0 -> OverviewContent()
-            1 -> IntentListScreen(categories = mockCategories)
-            2 -> BuyingGroupList()
+            // Scrollable content for each tab
+            Box(modifier = Modifier.fillMaxSize()) {
+                when (selectedTab) {
+                    0 -> OverviewContent()
+                    1 -> IntentListScreen(
+                        categories = listOf(
+                            IntentCategory(
+                                title = "Personalization at scale",
+                                subtitle = "Category",
+                                items = listOf(
+                                    IntentItem("Journey Optimizer", "high intent"),
+                                    IntentItem("Journey Optimizer B2B Edition", "high intent")
+                                )
+                            )
+                        )
+                    )
+                    2 -> BuyingGroupList()
+                }
+            }
         }
     }
 }
